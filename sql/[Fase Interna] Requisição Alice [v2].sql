@@ -3,39 +3,45 @@
 
 -- Versão Específica: Fase Interna
 
---WITH temp AS (
+WITH temp AS (
 SELECT
-	id_uasg AS uasg,
-	CAST(REPLACE(tx_descricao, '/', '') AS INTEGER) AS numeroano,
-	--- Sugestões de nome alternativo: id, sequencial, numeroano, num_ano, num.
 --	CAST(REPLACE(CONCAT(id_uasg, tx_descricao), '/', '') AS BIGINT) AS contratacao,
-	--- Campo artificial, criado com o sequencial do próprio artefato ao invés do 'id_artefato_contratacao', que ainda não está disponível no DaaS.in_tipo AS artefato.
-	--- Verificar se é possível obter essa chave por dentro da base.
-	in_tipo AS artefato,
-	--- Decidir entre código numérico ou decodificação do tipo do artefato.
+		/* Campo artificial, criado com o sequencial do próprio artefato ao invés do 'id_artefato_contratacao', que ainda não está disponível no DaaS.in_tipo AS artefato. */
+		/* Verificar se é possível obter essa chave por dentro da base. */
+	id_uasg AS uasg,
+--	in_tipo AS artefato,
+		/* Decidir entre código numérico ou decodificação do tipo do artefato. */
 	CASE in_tipo
 		WHEN 0 THEN 'ETP' 		-- Estudo Técnico Preliminar
 		WHEN 1 THEN 'MR' 		-- Matriz de Riscos 
-		WHEN 2 THEN 'ETPTIC' 	-- Estudo Técnico Preliminar (TIC) 
+		WHEN 2 THEN 'ETPTIC'	-- Estudo Técnico Preliminar (TIC) 
 		WHEN 3 THEN 'PGC' 		-- Programação e Gestão de Contratações
 		WHEN 4 THEN 'DFD' 		-- Documento de Formalização de Demanda 
 		WHEN 5 THEN 'PC'		-- Processo de Compra
 		WHEN 6 THEN 'TR' 		-- Termo de Referência
 		-- WHEN 7 THEN 'ED' 	-- Edital (inativo)
-		END artefato
-	--- Campo decodificado de in_tipo
+		END artefato,   
+		/* Campo decodificado de in_tipo. */
+--	CAST(REPLACE(tx_descricao, '/', '') AS INTEGER) AS numeroano
+	REPLACE(tx_descricao, '/', '') AS numeroano
+	/* Sugestões de nome alternativo: id, sequencial, numeroano, num_ano, num. */
 FROM artefato
---)
---SELECT
---	'id=' || id || '&' || 'uasg=' || uasg || '&' || 'numeroano=' || numeroano || '&' || 'fase=' || fase || '&' || 'tipo=' || tipo AS chave_requisicao
---FROM temp
+WHERE id_artefato = 762193
+)
+SELECT
+--	'contratacao=' || contratacao || '&' || 'artefato=' || artefato || '&' || 'uasg=' || uasg || '&' || 'numeroano=' || numeroano AS chave_requisicao
+		-- Versão com o campo 'contratação'.
+	'artefato=' || artefato || '&' || 'uasg=' || uasg || '&' || 'numeroano=' || numeroano AS chave_requisicao	
+	 	-- Versão sem o campo 'contratação'.
+FROM temp
 ;
+
 
 ----------------------------------------------------------------------------------
 
 -- Test in_tipo values
 
-SELECT DISTINCT in_tipo FROM Comprasnet_faseinterna_VBL.artefato ORDER BY in_tipo;
+SELECT DISTINCT in_tipo FROM artefato ORDER BY in_tipo;
 
 
 -- Decode artefato.in_tipo
@@ -43,7 +49,7 @@ SELECT DISTINCT in_tipo FROM Comprasnet_faseinterna_VBL.artefato ORDER BY in_tip
 --	CASE a.in_tipo
 --		WHEN 0 THEN 'ETP' 		-- "Estudo Técnico Preliminar"
 --		WHEN 1 THEN 'MR' 		-- "Matriz de Riscos" 
---		WHEN 2 THEN 'ETPTIC' 	-- "Estudo Técnico Preliminar (TIC)" 
+--		WHEN 2 THEN 'ETPTIC' 	-- "Estudo Técnico Preliminar (TIC)"
 --		WHEN 3 THEN 'PGC' 		-- "Programação e Gestão de Contratações" 
 --		WHEN 4 THEN 'DFD' 		-- "Documento de Formalização de Demanda" 
 --		WHEN 5 THEN 'PC'		-- "Processo de Compra"
@@ -61,16 +67,15 @@ SELECT DISTINCT in_tipo FROM Comprasnet_faseinterna_VBL.artefato ORDER BY in_tip
 
 SELECT
 	id_uasg AS uasg,
-	CAST(REPLACE(CONCAT(id_uasg, tx_descricao), '/', '') AS BIGINT) AS contratacao,
-	tx_descricao AS sequencial,
-	in_tipo AS artefato
+	in_tipo AS artefato,
+--	CAST(REPLACE(CONCAT(id_uasg, tx_descricao), '/', '') AS BIGINT) AS contratacao,
+	CAST(REPLACE(tx_descricao, '/', '') AS INTEGER) AS sequencial
 FROM artefato
 WHERE 1=1
 	AND id_uasg IN 											(158195)
 --	AND id_artefato_contratacao = 							(?)
---	AND CAST(REPLACE(tx_descricao, '/', '') AS INTEGER) IN 	(32021)
-	AND tx_descricao IN										('3/2021')
 	AND in_tipo IN 											(0)
+	AND REPLACE(tx_descricao, '/', '') IN					(32021)
 ;
 
 
