@@ -1,20 +1,23 @@
--- siasg_orgaos
+##### siasg_orgaos
+
 SELECT * 
 FROM seges_delog_cgscg_stage.dbo.siasg_orgaos
 --WHERE 
---	IT_IN_STATUS != '*'				-- Somente UASG’s com (in_status = diferente de “*” ? UASG’s Ativa;			
+--	IT_IN_STATUS != '*'				-- Somente UASGï¿½s com (in_status = diferente de ï¿½*ï¿½ ? UASGï¿½s Ativa;			
 ;
 
--- siasg_uasgs 
+##### siasg_uasgs
+
 SELECT * 
 FROM seges_delog_cgscg_stage.dbo.siasg_uasgs
 --WHERE 
---	IT_IN_STATUS != '*'				-- Somente UASG’s com (in_status = diferente de “*” ? UASG’s Ativa;
---	AND IT_IN_ADESAO_SIASG = 'S'	-- Somente  UASG’s com it_in_adesao_siasg = “S” ?Aderiu ao SIASG
---	AND IT_IN_USO_SISG_UASG = 'N'	-- Somente UASG’s com it_in-uso_sisg_uasg = “N” ? UASG’s não SISG			
+--	IT_IN_STATUS != '*'				-- Somente UASGï¿½s com (in_status = diferente de ï¿½*ï¿½ ? UASGï¿½s Ativa;
+--	AND IT_IN_ADESAO_SIASG = 'S'	-- Somente  UASGï¿½s com it_in_adesao_siasg = ï¿½Sï¿½ ?Aderiu ao SIASG
+--	AND IT_IN_USO_SISG_UASG = 'N'	-- Somente UASGï¿½s com it_in-uso_sisg_uasg = ï¿½Nï¿½ ? UASGï¿½s nï¿½o SISG			
 ;
 
--- siasg_uasgs_orgaos
+##### siasg_uasgs_orgaos
+
 SELECT * 
 FROM seges_delog_cgscg_stage.dbo.siasg_uasgs_orgaos
 ;
