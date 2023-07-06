@@ -20,7 +20,7 @@ SELECT
 		WHEN 5 THEN 'PC'		-- Processo de Compra
 		WHEN 6 THEN 'TR' 		-- Termo de Referência
 		-- WHEN 7 THEN 'ED' 	-- Edital (inativo)
-		END artefato,   
+		END artefato,
 		/* Campo decodificado de in_tipo. */
 --	CAST(REPLACE(tx_descricao, '/', '') AS INTEGER) AS numeroano
 	REPLACE(tx_descricao, '/', '') AS numeroano
