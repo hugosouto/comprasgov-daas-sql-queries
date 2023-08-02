@@ -1,0 +1,13 @@
+SELECT
+	CASE 
+		WHEN cnpj IS NULL THEN 'NULL'
+		ELSE 'NOT NULL'		
+	END AS nullity,
+	COUNT(*) AS count
+FROM Comprasnet_VBL.tb_Orgao
+GROUP BY
+	CASE 
+		WHEN cnpj IS NULL THEN 'NULL'
+		ELSE 'NOT NULL'		
+	END
+;
