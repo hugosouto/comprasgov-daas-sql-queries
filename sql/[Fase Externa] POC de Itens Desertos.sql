@@ -1,4 +1,5 @@
-SELECT 
+-- Tabela compra
+SELECT
 	id,
 	numero_uasg,
 	codigo_modalidade,
@@ -44,3 +45,8 @@ SELECT
 FROM ComprasGov_FaseExterna_VBL.compra
 WHERE 1=1
 	AND codigo_modalidade = 5
+	
+-- Tabela item
+SELECT *
+FROM ComprasGov_FaseExterna_VBL.item i
+--JOIN ComprasGov_FaseExterna_VBL.compra c ON 
