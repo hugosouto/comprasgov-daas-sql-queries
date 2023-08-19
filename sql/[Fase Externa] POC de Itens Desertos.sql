@@ -165,7 +165,6 @@ SELECT
 	,c.data_hora_prevista_abertura_sp
 	,c.situacao_compra
 	,c.part_excl_meepp_ou_equiparadas
-	,c.criterio_julgamento
 	,c.fundamento_legal
 	,c.tipo_objeto
 FROM ComprasGov_FaseExterna_VBL.item i
