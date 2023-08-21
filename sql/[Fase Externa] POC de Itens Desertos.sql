@@ -171,3 +171,74 @@ FROM ComprasGov_FaseExterna_VBL.item i
 JOIN ComprasGov_FaseExterna_VBL.compra c ON c.numero_uasg = i.numero_uasg AND c.codigo_modalidade = i.codigo_modalidade AND c.numero_compra = i.numero_compra AND c.ano_compra = i.ano_compra
 WHERE i.tipo IN ('I', 'S')
 ;
+
+-- Tabela Resultado Experimento v5-XGBC
+SELECT
+	 i.id
+	,i.numero_uasg
+--	,i.codigo_modalidade
+--	,i.numero_compra
+--	,i.ano_compra
+	,i.numero_item
+--	,i.numero_grupo
+--	,i.qtde_itens_de_grupo
+--	,i.descricao
+--	,i.descricao_detalhada
+--	,i.unidade_fornecimento
+--	,i.criterio_julgamento
+--	,i.criterio_valor
+--	,i.valor_estimado
+	,i.quantidade_solicitada
+--	,i.situacao
+--	,i.orcamento_sigiloso
+--	,i.tipo_variacao_minima_entre_lances
+--	,i.variacao_minima_entre_lances
+--	,i.data_hora_alteracao
+--	,i.data_hora_inclusao
+--	,i.apelido
+--	,i.sugestao_apelido
+	,i.fase
+--	,i.homologado
+--	,i.data_hora_previsao_abertura
+--	,i.versao_1
+--	,i.priorizar_abertura
+--	,i.tipo
+	,i.codigo_item_catalogo
+--	,i.tipo_item_catalogo
+--	,i.versao_sala_disputa
+--	,i.melhor_valor_proposta_lance_informado
+--	,i.melhor_valor_proposta_lance_calculado
+--	,i.melhor_valor_nao_desclassificado_calculado
+--	,i.id_melhor_proposta_nao_desclassificada
+--	,i.situacao_envio_resultado
+--	,i.erro_ao_enviar_resultado
+--	,i.quantidade_minima_solicitada
+--	,i.qtde_propostas_melhor_valor
+--	,i.qtde_aceita
+--	,i.qtde_adjudicada
+--	,i.numero_sessao_julg_hab
+--	,i.id_fase_recursal_atual
+--	,i.data_hora_reabertura_julg_hab
+--	,i.numero_item_participacao_aberta
+--	,i.numero_item_participacao_exclusiva_meepp
+--	,i.tipo_tratamento_diferenciado_meepp
+--	,i.perc_min_subcontratacao
+--	,i.perc_max_subcontratacao
+--	,i.login_homologador
+--	,i.nome_homologador
+--	,i.ip_homologador
+--	,i.data_hora_homologacao
+--	,c.caracteristica
+--	,c.forma_realizacao
+--	,c.emergencial
+	,c.data_hora_prevista_abertura_sp
+--	,c.situacao_compra
+--	,c.part_excl_meepp_ou_equiparadas
+--	,c.fundamento_legal
+--	,c.tipo_objeto
+FROM ComprasGov_FaseExterna_VBL.item i
+JOIN ComprasGov_FaseExterna_VBL.compra c ON c.numero_uasg = i.numero_uasg AND c.codigo_modalidade = i.codigo_modalidade AND c.numero_compra = i.numero_compra AND c.ano_compra = i.ano_compra
+WHERE 1=1
+	AND i.tipo IN ('I', 'S')
+	AND i.fase = 'AS'
+;
