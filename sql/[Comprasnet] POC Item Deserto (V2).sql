@@ -2,6 +2,7 @@ SELECT
 	 pri.ipgCod 			cod_pregao_item
 	,pr.prgCod 				cod_pregao
 	,pr.coduasg				cod_uasg
+	,u.uf 					uf_uasg
 --	,u.nomuasg 				nom_uasg
 	,u.codOrgao 			cod_orgao
 --	,o.NomeOrgao 			nom_orgao
@@ -30,7 +31,6 @@ SELECT
 	,CASE WHEN COUNT(DISTINCT ppi.prpCod) = 0 THEN True ELSE False END	in_deserto
 FROM Comprasnet_VBL.tbl_pregaoitem pri
 	JOIN Comprasnet_VBL.tbl_Pregao pr ON pri.prgCod = pr.prgCod
-	LEFT JOIN Comprasnet_VBL.tbl_EventosPregaoItem epi ON epi.ipgCod = pri.ipgCod
 	LEFT JOIN Comprasnet_VBL.tbl_PropostaItem ppi ON ppi.ipgCod = pri.ipgCod
 	LEFT JOIN Comprasnet_VBL.tbl_Proposta pp ON pr.prgCod = pp.prgCod
 	LEFT JOIN Comprasnet_VBL.tb_itens_material im ON im.CODIGO_MATERIAL = pri.codmat
@@ -38,20 +38,13 @@ FROM Comprasnet_VBL.tbl_pregaoitem pri
 	LEFT JOIN Comprasnet_VBL.tb_servico sv ON sv.codserv = pri.codmat
 	LEFT JOIN Comprasnet_VBL.tbb_StatusPregaoItem spi ON spi.spgCod = pri.spgCod
 	LEFT JOIN Comprasnet_VBL.tb_uasg u ON u.coduasg = pr.coduasg
-	JOIN Comprasnet_VBL.tb_orgao o ON o.codOrgao = u.codOrgao
+--	JOIN Comprasnet_VBL.tb_orgao o ON o.codOrgao = u.codOrgao
 --	JOIN Comprasnet_VBL.tb_orgao o2 ON o2.CodOrgaoVinculado = o.CodOrgao
 WHERE 1=1
 	AND pri.ipgItem > 0
 	AND prgDataAbertura BETWEEN '2022-00-00 00:00:00' AND '2023-00-00 00:00:00'
-	AND pr.prgStatus IN (2)
-	AND pri.spgCod IN (6, 9) -- 1:Fechado, 6:Cancelado
-GROUP BY pr.prgCod, pr.coduasg, pr.numprp, pr.prgDataAbertura, pr.prgModoDisputa, pri.ipgCod, pri.ipgItem, pri.codmat, pri.ipgIdentMat, pri.ipgQuantidade, pri.ipgCodGrupo, pri.ipgTipoBeneficio, pr.prgStatus, im.CODIGO_PDM, im2.CODIGO_PDM, sv.codgrpserv, pri.spgCod, spi.spgDescricao, u.nomuasg, u.CodOrgao, epi.evtCod -- o.NomeOrgao, o.CodOrgaoVinculado, o2.NomeOrgao
---HAVING COUNT(DISTINCT ppi.prpCod) = 0
---	,CASE WHEN ppi.prpCod = 0 THEN True ELSE False END
+	AND pr.prgStatus IN (2, 4) -- 2:homologado
+	AND pri.spgCod IN (6, 9) -- 6:Cancelado | 9:Homologado
+GROUP BY pr.prgCod, pr.coduasg, pr.numprp, pr.prgDataAbertura, pr.prgModoDisputa, pri.ipgCod, pri.ipgItem, pri.codmat, pri.ipgIdentMat, pri.ipgQuantidade, pri.ipgCodGrupo, pri.ipgTipoBeneficio, pr.prgStatus, im.CODIGO_PDM, im2.CODIGO_PDM, sv.codgrpserv, pri.spgCod, spi.spgDescricao, u.nomuasg, u.CodOrgao, u.uf
+--HAVING COUNT(DISTINCT ppi.prpCod) = 1
 ;
-
-SELECT DISTINCT
-	 pri.spgCod 			cod_status_item
-	,spi.spgDescricao 		des_status_item
-FROM Comprasnet_VBL.tbl_pregaoitem pri
-	LEFT JOIN Comprasnet_VBL.tbb_StatusPregaoItem spi ON spi.spgCod = pri.spgCod
