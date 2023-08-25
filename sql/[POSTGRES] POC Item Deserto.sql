@@ -30,7 +30,6 @@ SELECT
 	,i.situacao_compra
 	,i.part_excl_meepp_ou_equiparadas
 	,i.fundamento_legal
---	,CASE fundamento_legal WHEN NULL THEN 'L86660' ELSE fundamento_legal END fundamento_legal
 	,tipo_objeto
 	,u.it_sg_uf
 	,u.it_co_orgao
@@ -47,20 +46,32 @@ SELECT
 		WHEN 'S' THEN s.codigo_secao
 		END codigo_grupo_secao
 	,CASE i.tipo_item_catalogo
+		WHEN 'M' THEN m.nome_grupo 
+		WHEN 'S' THEN s.nome_secao
+		END nome_grupo_secao
+	,CASE i.tipo_item_catalogo
 		WHEN 'M' THEN m.codigo_classe
 		WHEN 'S' THEN s.codigo_divisao
 		END codigo_classe_divisao
 	,CASE i.tipo_item_catalogo
+		WHEN 'M' THEN m.nome_classe
+		WHEN 'S' THEN s.nome_divisao
+		END nome_classe_divisao
+	,CASE i.tipo_item_catalogo
 		WHEN 'M' THEN m.codigo_pdm
 		WHEN 'S' THEN s.codigo_grupo 
 		END codigo_pdm_grupo
+	,CASE i.tipo_item_catalogo
+		WHEN 'M' THEN m.nome_pdm
+		WHEN 'S' THEN s.nome_grupo 
+		END nome_pdm_grupo
 FROM analises.poc_item_deserto_fase_externa i
 	JOIN estrutura.siasg_uasgs_orgaos u ON u.it_co_unidade_gestora = i.numero_uasg
 	LEFT JOIN catalogo.item_material m ON i.codigo_item_catalogo = m.codigo_item
 	LEFT JOIN catalogo.item_servico s ON i.codigo_item_catalogo = s.codigo_servico
 ;
 
--- Tabela Final
+-- Tabela Consolidada
 SELECT
 --	 id -- (transformado)
 --	,numero_uasg -- (transformado)
@@ -102,11 +113,6 @@ SELECT
 --	,codigo_grupo_secao -- (transformado)
 --	,codigo_classe_divisao -- (transformado)
 --	,codigo_pdm_grupo -- (transformado)
-	-- Text
---	,descricao
---	,it_no_orgao
---	,it_no_orgao_vinculado
---	,it_no_orgao_superior
 	-- Transformations
 	,CAST(id AS VARCHAR)
 	,CASE 
@@ -126,8 +132,9 @@ SELECT
 	,CAST(it_co_orgao AS VARCHAR)
 	,CAST(it_co_orgao_vinculado AS VARCHAR)
 	,CAST(it_co_orgao_superior AS VARCHAR)
+	fase_compra
 	,CASE WHEN (CASE WHEN orcamento_sigiloso IS NULL THEN 'N' ELSE orcamento_sigiloso END) = 'S' THEN True ELSE False END in_orcamento_sigiloso
-	,CASE situacao WHEN '6' THEN True WHEN '1' THEN False END in_deserto
+	,CASE situacao WHEN '6' THEN True ELSE False END in_deserto
 	,CASE tipo WHEN 'S' THEN True WHEN 'I' THEN False END in_agrupado
 	,CASE WHEN fase = 'AS' THEN True ELSE False END in_aberto
 	,CASE caracteristica WHEN '2' THEN True WHEN '1' THEN False END in_srp
@@ -137,7 +144,38 @@ SELECT
 	,CASE tipo_variacao_minima_entre_lances WHEN 'P' THEN True ELSE False END in_percentual
 	,CASE tipo_item_catalogo WHEN 'S' THEN True ELSE False END in_servico
 	,CASE codigo_modalidade WHEN 5 THEN True ELSE False END in_pregao
-FROM analises.poc_item_deserto_original
+	-- Text
+	,descricao
+	,it_no_orgao
+	,it_no_orgao_vinculado
+	,it_no_orgao_superior
+	,nome_grupo_secao
+	,nome_classe_divisao
+	,nome_pdm_grupo
+FROM analises.poc_item_deserto_base i
+	LEFT JOIN catalogo.item_material m ON i.codigo_item_catalogo = m.codigo_item
+	LEFT JOIN catalogo.item_servico s ON i.codigo_item_catalogo = s.codigo_servico
 WHERE 1=1
 	AND situacao IN ('1', '6')
+;
+
+
+-- Tabela Consolidada Siasgnet
+SELECT i.*
+--	 i.id
+--	,numero_item
+--	,quantidade_solicitada
+--	,data_hora_prevista_abertura_sp
+--	,codigo_tipo_item_catalogo
+--	,codigo_item_catalogo
+	,CAST(CASE i.tipo_item_catalogo
+		WHEN 'M' THEN m.codigo_pdm
+		WHEN 'S' THEN s.codigo_grupo 
+		END AS VARCHAR) codigo_pdm_grupo
+--	,it_co_orgao
+--	,in_agrupado
+--	,it_sg_uf
+FROM analises.poc_item_deserto_siasgnet i
+	LEFT JOIN catalogo.item_material m ON i.codigo_item_catalogo = m.codigo_item
+	LEFT JOIN catalogo.item_servico s ON i.codigo_item_catalogo = s.codigo_servico
 ;
