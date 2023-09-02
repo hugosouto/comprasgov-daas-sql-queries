@@ -86,7 +86,7 @@ SELECT
 --	,situacao -- (transformado)
 --	,orcamento_sigiloso -- (transformado)
 --	,tipo_variacao_minima_entre_lances -- (transformado)
-	,variacao_minima_entre_lances
+--	,variacao_minima_entre_lances
 --	,fase -- (transformado)
 --	,homologado -- (unique value)
 --	,tipo -- (transformado)
@@ -98,8 +98,8 @@ SELECT
 --	,caracteristica -- (transformado)
 --	,forma_realizacao -- (unique value)
 --	,emergencial -- (unique value)
-	,data_hora_prevista_abertura_sp
-	,situacao_compra
+--	,data_hora_prevista_abertura_sp
+--	,situacao_compra
 --	,part_excl_meepp_ou_equiparadas -- (transformado)
 --	,fundamento_legal -- (null values)
 --	,tipo_objeto -- (null values)
@@ -114,7 +114,7 @@ SELECT
 --	,codigo_classe_divisao -- (transformado)
 --	,codigo_pdm_grupo -- (transformado)
 	-- Transformations
-	,CAST(id AS VARCHAR)
+	,CAST(id AS VARCHAR) AS id_item
 	,CASE 
 		WHEN it_sg_uf IN ('AL', 'BA', 'CE', 'MA', 'PB', 'PE', 'PI', 'RN', 'SE') THEN 'NE'
 		WHEN it_sg_uf IN ('DF', 'GO', 'MS', 'MT') THEN 'CO'
@@ -132,9 +132,10 @@ SELECT
 	,CAST(it_co_orgao AS VARCHAR)
 	,CAST(it_co_orgao_vinculado AS VARCHAR)
 	,CAST(it_co_orgao_superior AS VARCHAR)
-	fase_compra
+--	,fase_compra
 	,CASE WHEN (CASE WHEN orcamento_sigiloso IS NULL THEN 'N' ELSE orcamento_sigiloso END) = 'S' THEN True ELSE False END in_orcamento_sigiloso
 	,CASE situacao WHEN '6' THEN True ELSE False END in_deserto
+	,CASE situacao WHEN '6' THEN 1 ELSE 0 END in_deserto
 	,CASE tipo WHEN 'S' THEN True WHEN 'I' THEN False END in_agrupado
 	,CASE WHEN fase = 'AS' THEN True ELSE False END in_aberto
 	,CASE caracteristica WHEN '2' THEN True WHEN '1' THEN False END in_srp
@@ -157,6 +158,8 @@ FROM analises.poc_item_deserto_base i
 	LEFT JOIN catalogo.item_servico s ON i.codigo_item_catalogo = s.codigo_servico
 WHERE 1=1
 	AND situacao IN ('1', '6')
+	AND data_hora_prevista_abertura_sp < '2023-08-01 00:00:00.000'
+--	AND data_hora_prevista_abertura_sp > '2023-08-01 00:00:00.000'
 ;
 
 
@@ -179,3 +182,4 @@ FROM analises.poc_item_deserto_siasgnet i
 	LEFT JOIN catalogo.item_material m ON i.codigo_item_catalogo = m.codigo_item
 	LEFT JOIN catalogo.item_servico s ON i.codigo_item_catalogo = s.codigo_servico
 ;
+

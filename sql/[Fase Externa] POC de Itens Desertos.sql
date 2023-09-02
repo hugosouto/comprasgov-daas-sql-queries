@@ -231,7 +231,7 @@ SELECT
 --	,c.caracteristica
 --	,c.forma_realizacao
 --	,c.emergencial
-	,c.data_hora_prevista_abertura_sp
+--	,c.data_hora_prevista_abertura_sp
 --	,c.situacao_compra
 --	,c.part_excl_meepp_ou_equiparadas
 --	,c.fundamento_legal
