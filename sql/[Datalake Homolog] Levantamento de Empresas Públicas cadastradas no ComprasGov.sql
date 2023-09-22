@@ -7,7 +7,10 @@ SELECT
 	IT_NO_UNIDADE_GESTORA AS "Nome da Unidade",
 --	RIGHT(REPLICATE('0', 6) + RTRIM(IT_CO_UNIDADE_GESTORA), 6) AS "Código da UASG (Preenchido)",
 	CASE IT_NU_CGC_CPF
+		WHEN '' THEN NULL
 		WHEN '0' THEN NULL
+		WHEN '0             ' THEN NULL
+		WHEN '00000000000000' THEN NULL
 		ELSE RIGHT(REPLICATE('0', 14) + RTRIM(IT_NU_CGC_CPF), 14)
 	END AS "CNPJ da Unidade",
 	CASE IT_IN_USO_SISG_UASG
@@ -30,20 +33,20 @@ SELECT
 	END AS "Código do Município da Unidade",
 	NOME_MUN_SIASG AS "Nome do Município da Unidade",
 	NOME_MUN_IBGE AS "Nome do Município da Unidade(IBGE)",
---	CASE IT_CO_UNIDADE_POLO
---		WHEN '0' THEN NULL
---		ELSE IT_CO_UNIDADE_POLO
---	END AS "Código da Unidade Polo",
---	IT_NO_UNIDADE_GESTORA_POLO AS "Nome da Unidade Polo",
+	CASE IT_CO_UNIDADE_POLO
+		WHEN '0' THEN NULL
+		ELSE IT_CO_UNIDADE_POLO
+	END AS "Código da Unidade Polo",
+	IT_NO_UNIDADE_GESTORA_POLO AS "Nome da Unidade Polo",
 --	CASE IT_CO_UNIDADE_ESPELHO
 --		WHEN '0' THEN NULL
 --		ELSE IT_CO_UNIDADE_ESPELHO
---	END AS "Código da Unidade Espelo",
---	IT_NO_UNIDADE_GESTORA_ESPELHO AS "Nome da Unidade Espelo",
---	CASE IT_IN_UASG_CADASTRADORA
---		WHEN 'S' THEN 'Sim'
---		WHEN 'N' THEN 'Não'
---	END AS "Indicador de Unidade Cadastradora",
+--	END AS "Código da Unidade Espelho",
+--	IT_NO_UNIDADE_GESTORA_ESPELHO AS "Nome da Unidade Espelho",
+	CASE IT_IN_UASG_CADASTRADORA
+		WHEN 'S' THEN 'Sim'
+		WHEN 'N' THEN 'Não'
+	END AS "Indicador de Unidade Cadastradora",
 	CASE IT_IN_STATUS_ORGAO
 		WHEN '' THEN 'Ativa'
 		WHEN '*' THEN 'Inativa'
@@ -95,4 +98,9 @@ FROM seges_delog_cgscg_stage.dbo.siasg_uasgs_orgaos
 WHERE 1=1
 	AND IT_IN_TIPO_ADMINISTRACAO IN (5, 8)
 	AND IT_IN_STATUS = ''
-	AND IT_IN_STATUS_ORGAO = ''; 
+	AND IT_IN_STATUS_ORGAO = ''
+	AND IT_IN_ESFERA NOT IN ('E', 'M')
+	AND IT_CO_UNIDADE_POLO = '0'
+--	and IT_IN_ESFERA = ''
+ORDER BY IT_NO_UNIDADE_GESTORA
+;
