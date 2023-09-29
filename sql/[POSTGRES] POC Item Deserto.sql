@@ -567,6 +567,6 @@ FROM analises.poc_item_deserto_base_v3 i
 	LEFT JOIN catalogo.item_servico s ON i.codigo_item_catalogo = s.codigo_servico
 WHERE 1=1
 --	AND situacao IN ('6')
---	AND data_hora_prevista_abertura_sp < '2023-08-01 00:00:00.000'
---	AND data_hora_prevista_abertura_sp > '2023-08-01 00:00:00.000'
+	AND data_hora_prevista_abertura_sp < '2023-09-15 00:00:00.000'
+--	AND data_hora_prevista_abertura_sp > '2023-09-15 00:00:00.000'
 ;
