@@ -1,0 +1,95 @@
+SELECT
+	 l.codigolicitacao
+	,l.tipolicitacao
+	,l.situacao
+	,l.codigomodalidade
+	,l.objeto
+	,l.numeroprocesso
+	,l.srp
+	,l.prazosrp
+	,l.internacional
+	,l.anolicitacao
+	,l.numerolicitacao
+	,l.recursopendente
+	,l.contadorreaberturadocumentacao
+	,l.situacaoanterior
+	,l.codigouasg
+	,l.datahoraregistro
+	,li.codigoitem
+	,li.codigolicitacao
+	,li.descricao
+	,li.quantidade
+	,li.valorestimado
+	,li.numero
+	,li.unidadefornecimento
+	,li.revogado
+	,li.justificativarevogacao
+	,li.situacaohomologacao
+	,li.justificativanaohomologacao
+	,li.codigomatserv
+	,li.tipobeneficio
+	,li.criteriojulgamento
+	,li.peminimosubcontratacao
+	,li.pemaximosubcontratacao
+	,li.codigoitempai
+	,li.justificativaanulacao
+	,li.justifsubmeterrevogacao
+	,li.justifdiscordsubmeterrevogacao
+	,li.aplicadecreto7174
+	,li.tipoitem
+	,li.pemargempreferencianormal
+	,li.pemargempreferenciaadicional
+	,li.datahoraregistro
+	,pr.codigoproposta
+	,pr.codigoitem
+	,pr.codigoparticipante
+	,pr.marca
+	,pr.fabricante
+	,pr.quantidade
+	,pr.resultado
+	,pr.situacaopropostapreco
+	,pr.situacaopropostatecnica
+	,pr.justificativadesclassificacaopreco
+	,pr.justificativadesclassificacaotecnica
+	,pr.descricaocomplementar
+	,pr.vencedora
+	,pr.valoritem
+	,pr.valornegociadounitario
+	,pr.pontuacaotecnica
+	,pr.datahoraregistro
+	,pr.justificativanegociacao
+	,pr.valorglobal
+	,pr.valordesconto
+	,pr.valorunitariodesempate
+	,pr.valorglobaldesempate
+	,pr.valordescontodesempate
+	,pr.assumidocota
+	,pr.situacaoempate
+	,pr.situacaosubcontratadas
+	,pr.justificativanaosubcontratacao
+	,pr.classificacaojulgamento
+	,pr.valornegociadodesconto
+	,pr.valornegociadoglobal
+	,pr.valorunitariodesempate7174
+	,pr.valorglobaldesempate7174
+	,pr.valordescontodesempate7174
+	,pr.situacaoempate7174
+	,pr.fezdeclaracaotp
+	,pr.fezdeclaracaoppb
+	,pr.fezdeclaracaoprodutonacional
+	,pr.codigopaisorigem
+	,pa.codigoparticipante
+	,pa.codigofornecedor
+	,pa.codigolicitacao
+	,pa.justificativanaohabilitacao
+	,pa.situacaoparticipante
+	,pa.fezdeclaracaome
+	,pa.datahorasituacao
+FROM Siasgnet_sp_VBL.licitacao l
+	,Siasgnet_sp_VBL.licitacaoitem li 
+	,Siasgnet_sp_VBL.proposta pr
+	,Siasgnet_sp_VBL.participante pa
+WHERE 1=1
+	AND li.codigolicitacao = l.codigolicitacao
+	AND pr.codigoitem = li.codigoitem
+	AND pa.codigoparticipante = pr.codigoparticipante
