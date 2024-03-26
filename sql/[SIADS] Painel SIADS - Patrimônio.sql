@@ -52,7 +52,7 @@ SELECT
 --	, it_da_atualizacao
 FROM siads_ger_pt_me.siads_ext_patrim x
 WHERE 1=1
-	AND it_no_tipo_bem NOT IN ('PROVISORIO')
+	AND it_co_tipo_bem != 3 -- NOT IN ('PROVISORIO')
 	AND it_co_destinacao NOT IN (6, 12, 13, 15, 23, 39)
 	AND it_da_tombamento > 20240000
 	AND it_in_status = 'A'
@@ -61,13 +61,40 @@ WHERE 1=1
 -------------------- TESTES --------------------
 
 SELECT DISTINCT it_co_destinacao, it_no_destinacao, COUNT(it_nu_patrimonial), COUNT(DISTINCT it_nu_patrimonial)
-FROM siads_ger_pt_me.siads_ext_patrim x
+FROM siads_ger_pt_me.siads_ext_patrim
 GROUP BY it_co_destinacao, it_no_destinacao
 ;
 
 SELECT * --DISTINCT it_in_status, COUNT(it_in_status)
-FROM siads_ger_pt_me.siads_ext_patrim x
+FROM siads_ger_pt_me.siads_ext_patrim
 WHERE it_in_status = 'I';
 --GROUP BY it_in_status;
 --AND it_da_tombamento BETWEEN 20180000 AND 20190000
+;
+
+SELECT DISTINCT it_co_tipo_bem, it_no_tipo_bem, COUNT(it_nu_patrimonial)
+FROM siads_ger_pt_me.siads_ext_patrim
+GROUP BY it_co_tipo_bem, it_no_tipo_bem
+;
+
+SELECT DISTINCT it_in_status,it_co_orgao,it_no_mnemonico,it_co_orgao_vinc,it_no_orgao,it_nu_cgc_cpf_orgao,it_in_administracao,it_in_utilizacao,it_in_poder,it_co_municipio_orgao
+FROM siads_ger_pt_me.siorg_orgao
+;
+
+SELECT DISTINCT COUNT(it_co_ug)
+FROM siads_ger_pt_me.siorg_unidade_gestora
+--WHERE it_co_uasg != 0
+GROUP BY it_co_ug
+--ORDER BY it_co_ug
+;
+
+SELECT DISTINCT B.it_no_destinacao
+FROM siads_ger_pt_me.siads_ext_orgao_ug A
+RIGHT JOIN (SELECT DISTINCT * FROM siads_ger_pt_me.siads_ext_patrim) B ON A.it_co_ug = B.it_co_ug
+WHERE A.it_co_ug IS NULL
+;
+
+SELECT DISTINCT it_co_ug, 
+FROM siads_ger_pt_me.siads_ext_patrim
+--GROUP BY it_co_ug
 ;
