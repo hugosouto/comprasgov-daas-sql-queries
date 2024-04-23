@@ -6,6 +6,8 @@ CREATE TABLE atividade_principal (
 	descricao_atividade_principal VARCHAR(MAX)
 	);
 
+TRUNCATE TABLE credenciamento_pncp.atividade_principal;
+
 INSERT atividade_principal VALUES ('','','');
 
 ALTER SCHEMA credenciamento_pncp
