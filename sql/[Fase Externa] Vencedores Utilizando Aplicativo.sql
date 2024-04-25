@@ -81,7 +81,7 @@ vencedores_app_com_lance as (
 			AND pdi.numero_item = v.numero_item
 			AND pdi.tipo_participante = v.tipo_participante
 			AND pdi.identificacao_participante = v.identificacao_participante
---			limit 3 --limita a quantidade de registros apenas para teste
+			limit 3 --limita a quantidade de registros apenas para teste
 )
 select * from vencedores_app_com_proposta
 union
@@ -125,14 +125,12 @@ where c.codigo_modalidade = 6
 
 --Para obter os dados de validação do DAAS da sala de disputa:
 --********************************************************************************************
-select
-*
+select l.origem, count(distinct l.id)
 from
-ComprasGov_SalaDisputa_VBL.participacao_disputa_item as pdi
-inner join ComprasGov_SalaDisputa_VBL.lance as l
-on pdi.id_melhor_lance = l.id
-and l.origem_sessao_usuario = 'A'
+ComprasGov_SalaDisputa_VBL.participacao_disputa_item as pdi 
+	inner join ComprasGov_SalaDisputa_VBL.lance as l on pdi.id_melhor_lance = l.id and l.origem_sessao_usuario = 'A'
 where 1=1
+and l.data_hora_inclusao between '2024-01-01' and '2024-01-10'
 --and pdi.numero_uasg = ???
 --and pdi.codigo_modalidade = ???
 --and pdi.numero_compra = ???
@@ -140,4 +138,5 @@ where 1=1
 --and pdi.numero_item = ???
 --and pdi.tipo_participante = '???'
 --and pdi.identificacao_participante = '???'
+group by l.origem
 ;
