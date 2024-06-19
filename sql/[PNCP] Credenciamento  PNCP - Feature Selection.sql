@@ -1,4 +1,4 @@
--- Consulta full para Postgre credenciamentoproc
+-- Consulta full para Postgres credenciamentoproc
 SELECT
 	c.id
 ,	c.datainclusao
