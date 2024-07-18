@@ -170,7 +170,10 @@ SELECT
 FROM ComprasGov_FaseExterna_VBL.item i
 JOIN ComprasGov_FaseExterna_VBL.compra c ON c.numero_uasg = i.numero_uasg AND c.codigo_modalidade = i.codigo_modalidade AND c.numero_compra = i.numero_compra AND c.ano_compra = i.ano_compra
 WHERE 1=1
-	AND i.tipo IN ('I', 'S');
+	AND i.tipo IN ('I', 'S')
+	AND i.codigo_modalidade = 5
+ORDER BY id
+;
 
 -- Tabela Resultado Experimento v5-XGBC
 SELECT

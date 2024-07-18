@@ -405,7 +405,7 @@ SELECT
 		END nome_pdm_grupo
 	,cls.md_fornec_por_classe
 	,pdm.md_fornec_por_pdm
-FROM analises.poc_item_deserto_fase_externa_v3 i
+FROM comprasgov_insights.itens_desertos_etapa1_faseexterna i --analises.poc_item_deserto_fase_externa_v3 i
 	JOIN estrutura.siasg_uasgs_orgaos u ON u.it_co_unidade_gestora = i.numero_uasg
 	LEFT JOIN catalogo.item_material m ON i.codigo_item_catalogo = m.codigo_item
 	LEFT JOIN catalogo.item_servico s ON i.codigo_item_catalogo = s.codigo_servico
