@@ -19,7 +19,8 @@ FROM ocorrencia o
 	JOIN motivo_ocorrencia_dinamica mo 	ON od.id_motivo_ocorrencia_dinamica = mo.id_motivo_ocorrencia_dinamica
 	JOIN fornecedor f					ON o.id_fornecedor = f.id_fornecedor  
 	JOIN pessoa p						ON f.id_fornecedor = p.id_pessoa
---	JOIN fornecedor_juridico fj 		ON p.id_pessoa = fj.id_fornecedor_juridico
---	JOIN fornecedor_juridico_cnae fjc	ON p.id_pessoa = fjc.id_fornecedor_juridico
+	JOIN fornecedor_juridico fj 		ON p.id_pessoa = fj.id_fornecedor_juridico
+	JOIN fornecedor_juridico_cnae fjc	ON p.id_pessoa = fjc.id_fornecedor_juridico
 WHERE od.id_tp_ocorrencia_dinamica = 1004 AND o.id_tp_ocorrencia = 10 AND o.ind_excluida = 'N' AND tp_pessoa = 2
-ORDER BY num_cpf_cnpj;
+--ORDER BY num_cpf_cnpj
+;

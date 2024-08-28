@@ -24,8 +24,8 @@ JOIN Comprasnet_VBL.tbl_pregaoitem pi ON pi.prgCod = p.prgCod
 JOIN Comprasnet_VBL.tbl_Proposta pp ON pp.prgCod = p.prgCod
 JOIN Comprasnet_VBL.tbl_PropostaItem pri ON pri.prpCod = pp.prpCod
 WHERE 1=1
-	AND pp.prpData > '2021-01-01 00:00:00'
-	AND pp.prpCNPJ IN ('')
+--	AND pp.prpData > '2021-01-01 00:00:00'
+	AND pp.prpCNPJ IN ('26427482000154')
 	AND pi.ipgItem > 0
 --	AND (pi.ipgTipoBeneficio = '1' OR pri.ippIndAdjudicado = 'S')
 	AND p.prgStatus = 2
