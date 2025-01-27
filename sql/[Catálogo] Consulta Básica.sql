@@ -63,8 +63,8 @@ SELECT
 	i.codigo_item,
 	i.numero_caracteristica,
 	cr.nome_caracteristica,
-	v.nome_valor_caracteristica,
-	i.sigla_unidade_medida
+	v.nome_valor_caracteristica
+--	i.sigla_unidade_medida
 FROM grupo_material g
 JOIN classe_material cl ON g.codigo_grupo = cl.codigo_grupo
 JOIN pdm_material p ON p.codigo_classe = cl.codigo_classe
@@ -72,5 +72,6 @@ JOIN item_material i ON i.codigo_pdm = p.codigo_pdm
 JOIN caracteristica_detalhe_material cr ON cr.codigo_caracteristica = i.codigo_caracteristica
 JOIN valor_caracteristica_material v ON v.codigo_valor_caracteristica = i.codigo_valor_caracteristica
 --WHERE i.codigo_item=601719 --603746 --606074 --601719
+WHERE p.codigo_pdm = 14176 AND i.codigo_item IN (230632, 330710)
 ORDER BY g.codigo_grupo,cl.codigo_classe,p.codigo_pdm,i.codigo_item,i.numero_caracteristica
 ;

@@ -19,6 +19,8 @@ WHERE 1=1
 	AND codigo_modalidade = 5
 	AND p.identificacao_participante IN ('08830492000154', '03881622000164');
 ;
+
+
 /*
 	2. Todas as licitações que as empresas M.A.P DOS SANTOS (CNPJ 08.830.492/0001-54) e
 	AGROMOTORES MÁQUINAS E IMPLEMENTOS LTDA (CNPJ 03.881.622/0001-64)
